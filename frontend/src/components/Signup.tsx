@@ -18,7 +18,7 @@ interface FormData {
 
 interface ResponseData {
   message: string;
-  user?: user; // Make the note optional in case it's missing
+  user?: user;
 }
 
 export default function Signup() {
@@ -39,6 +39,50 @@ export default function Signup() {
     password: ''
   });
 
+  const [errors, setErrors] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const validateForm = () => {
+    let isValid = true;
+    const newErrors = {
+      name: '',
+      email: '',
+      password: ''
+    };
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = 'Name is required';
+      isValid = false;
+    } else if (formData.name.length > 20) {
+      newErrors.name = 'Name cannot exceed 20 characters';
+      isValid = false;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+      isValid = false;
+    }
+
+    // Password validation
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])/;
+    if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+      isValid = false;
+    } else if (!passwordRegex.test(formData.password)) {
+      newErrors.password = 'Password must contain at least one uppercase letter and one special character';
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [id]: value }));
@@ -46,6 +90,11 @@ export default function Signup() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       const res = await fetch('https://backend.salihamajid777.workers.dev/signup', {
         method: 'POST',
@@ -58,13 +107,12 @@ export default function Signup() {
       const data: ResponseData = await res.json();
       console.log('API Response:', data);
 
-      // Ensure that the note object exists and has an id
       if (data.user && data.user.id) {
         localStorage.setItem('authToken', data.user.id);
         setIsLogin(true);
         navigate('/');
       } else {
-        console.error('Error:user or id is missing in the response.');
+        console.error('Error: User or ID is missing in the response.');
       }
     } catch (error) {
       console.error('Error during registration:', error);
@@ -83,9 +131,10 @@ export default function Signup() {
               id="name"
               placeholder="Enter your name"
               value={formData.name}
-              required
               onChange={handleChange}
+              required
             />
+            {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
           </div>
           <div>
             <label htmlFor="email">E-Mail</label>
@@ -97,6 +146,7 @@ export default function Signup() {
               onChange={handleChange}
               required
             />
+            {errors.email && <p style={{ color: 'red' }}>{errors.email}</p>}
           </div>
           <div>
             <label htmlFor="password">Password</label>
@@ -108,6 +158,7 @@ export default function Signup() {
               onChange={handleChange}
               required
             />
+            {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
           </div>
           <button type="submit">Submit</button>
           <h2 className="text-center or">OR</h2>
