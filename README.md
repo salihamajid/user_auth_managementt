@@ -50,5 +50,4 @@ export async function handleslogin(request, env) {
 <h2>Contributing</h2>
 <p>Contributions are welcome! Please open an issue or submit a pull request for improvements or bug fixes.</p>
 
-<h2>License</h2>
-<p>This project is licensed under the MIT License.</p>
+
