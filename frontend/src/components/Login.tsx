@@ -61,22 +61,22 @@ const Login = () => {
         <div className="heading">LOGIN</div>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email"> Enter Email</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
-              placeholder="Enter your email"
+              placeholder="Enter Your Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div>
-            <label htmlFor="password"> Enter Password</label>
+            <label htmlFor="password">Password</label>
             <input
               type="password"
               id="password"
-              placeholder="Enter your password"
+              placeholder="Enter Your Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -85,7 +85,7 @@ const Login = () => {
           <button type="submit">Login</button>
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
-        <p> Create New account! <Link to="/signup">Sign Up</Link> </p>
+        <p> Create New Account! <Link to="/signup">Sign Up</Link> </p>
       </div>
     </div>
   );

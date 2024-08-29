@@ -1,7 +1,6 @@
 import { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import useLoginStore from '../LoginStore';
-import axios from 'axios';
 
 interface user {
   id: string;
@@ -14,6 +13,7 @@ interface FormData {
   name: string;
   email: string;
   password: string;
+  confirmPassword: string; // New state for confirm password
 }
 
 interface ResponseData {
@@ -36,21 +36,26 @@ export default function Signup() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: '' // Initialize confirmPassword state
   });
 
   const [errors, setErrors] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: '' // Initialize confirmPassword error state
   });
+
+  const [showPassword, setShowPassword] = useState(false); // State for toggling password visibility
 
   const validateForm = () => {
     let isValid = true;
     const newErrors = {
       name: '',
       email: '',
-      password: ''
+      password: '',
+      confirmPassword: ''
     };
 
     // Name validation
@@ -79,6 +84,12 @@ export default function Signup() {
       isValid = false;
     } else if (!passwordRegex.test(formData.password)) {
       newErrors.password = 'Password must contain at least one uppercase letter and one special character';
+      isValid = false;
+    }
+
+    // Confirm Password validation
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
       isValid = false;
     }
 
@@ -132,19 +143,19 @@ export default function Signup() {
             <input
               type="text"
               id="name"
-              placeholder="Enter your name"
+              placeholder="Enter Your Name"
               value={formData.name}
               onChange={handleChange}
               required
             />
-            {errors.name &&  <p style={{ color: 'red' }}>{errors.name}</p>}
+            {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
           </div>
           <div>
-            <label htmlFor="email">E-Mail</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="email"
-              placeholder="Enter your email"
+              placeholder="Enter Your Email"
               value={formData.email}
               onChange={handleChange}
               required
@@ -154,20 +165,42 @@ export default function Signup() {
           <div>
             <label htmlFor="password">Password</label>
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
               id="password"
-              placeholder="Enter your password"
+              placeholder="Enter Your Password"
               value={formData.password}
               onChange={handleChange}
               required
             />
             {errors.password && <p style={{ color: 'red' }}>{errors.password}</p>}
           </div>
+          <div>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type={showPassword ? "text" : "password"} // Toggle input type based on showPassword state
+              id="confirmPassword"
+              placeholder="Confirm Your Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+            {errors.confirmPassword && <p style={{ color: 'red' }}>{errors.confirmPassword}</p>}
+          </div>
+          <div>
+            <label>
+              <input
+                type="checkbox"
+                checked={showPassword}
+                onChange={() => setShowPassword(!showPassword)}
+              />
+              Show Password
+            </label>
+          </div>
           <button type="submit">Submit</button>
           <h2 className="text-center or">OR</h2>
         </form>
         <p>
-          Already Have an account? <Link to="/login">Login</Link>
+          Already Have An Account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLoginStore from './LoginStore';
 
@@ -10,8 +10,18 @@ const WelcomePage = () => {
     // Clear token and update login state
     localStorage.removeItem('authToken');
     setIsLogin(false);
-    navigate('/login'); // Redirect to login page
+
+    navigate('/login'); 
+  // Redirect to login page
   };
+  
+       useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      setIsLogin(false);
+      navigate('/login');
+    }
+  }, [setIsLogin, navigate]);
 
   return (
     <div className="welcome-container">
