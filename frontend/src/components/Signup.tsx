@@ -60,6 +60,9 @@ export default function Signup() {
     } else if (formData.name.length > 20) {
       newErrors.name = 'Name cannot exceed 20 characters';
       isValid = false;
+    } else if (formData.name.startsWith(' ')) {
+      newErrors.name = 'Name cannot start with a space';
+      isValid = false;
     }
 
     // Email validation
@@ -134,7 +137,7 @@ export default function Signup() {
               onChange={handleChange}
               required
             />
-            {errors.name && <p style={{ color: 'red' }}>{errors.name}</p>}
+            {errors.name &&  <p style={{ color: 'red' }}>{errors.name}</p>}
           </div>
           <div>
             <label htmlFor="email">E-Mail</label>

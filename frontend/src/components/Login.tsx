@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import useLoginStore from '../LoginStore';
-import '../App.css'
+import '../App.css';
 
 const Login = () => {
   const { setIsLogin } = useLoginStore();
@@ -20,8 +19,18 @@ const Login = () => {
     }
   }, [setIsLogin, navigate]);
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateEmail(email)) {
+      setError('Invalid email format');
+      return;
+    }
 
     try {
       const response = await axios.post('https://backend.salihamajid777.workers.dev/login', {
@@ -29,9 +38,9 @@ const Login = () => {
         password,
       });
 
-      const userinf  = response.data;
+      const userinf = response.data;
       console.log(userinf.user);
-      const userid =userinf.user.id
+      const userid = userinf.user.id;
 
       if (userid) {
         localStorage.setItem('authToken', userid);
@@ -59,7 +68,8 @@ const Login = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            required/>
+              required
+            />
           </div>
           <div>
             <label htmlFor="password"> Enter Password</label>
@@ -69,7 +79,8 @@ const Login = () => {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-           required />
+              required
+            />
           </div>
           <button type="submit">Login</button>
           {error && <p style={{ color: 'red' }}>{error}</p>}
