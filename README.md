@@ -1,66 +1,77 @@
-User Authentication and Management Web Application:
-This project is a serverless web application designed for user registration, login, and session management. The frontend is built with React, using styled-components for styling, and the backend leverages Cloudflare Workers for serverless functions, along with Workers KV for data storage. The application focuses on providing a secure and user-friendly authentication system.
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>README - Serverless User Auth App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1, h2 {
+            color: #007BFF;
+        }
+        code {
+            background-color: #eee;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        pre {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Serverless User Auth Application</h1>
+    <p>This project is a simple serverless web application for user registration and login, implemented using Cloudflare Workers, Workers KV, and React for the frontend.</p>
 
-Features:
-•	User Registration: New users can sign up with their name, email, and password. Passwords are securely hashed before being stored.
-•	User Login: Existing users can log in with their email and password. The authentication process verifies the hashed password.
-•	Session Management: User sessions are managed using tokens stored in the browser's localStorage.
-•	Responsive Design: The application is designed to be responsive and user-friendly across different devices.
-•	Black-and-White Theme: The application features a clean black-and-white theme for a modern and minimalistic look.
+    <h2>Features</h2>
+    <ul>
+        <li>User Registration with hashed password storage</li>
+        <li>User Login with token-based authentication</li>
+        <li>Data stored securely using Cloudflare Workers KV</li>
+        <li>Basic CORS setup for cross-origin requests</li>
+    </ul>
 
-Technologies Used
-Frontend
-•	React: For building the user interface.
-•	TypeScript: For type safety and improved developer experience.
-•	React Router: For managing navigation within the app.
-•	Styled Components: For component-level styling.
-•	Zustand: For state management.
-Backend
-•	Cloudflare Workers: For running serverless functions that handle authentication and data processing.
-•	Workers KV: For key-value data storage, used to store user information securely.
-•	Password Hashing: User passwords are hashed using SHA-256 before storage to enhance security.
+    <h2>Setup Instructions</h2>
+    <h3>Backend</h3>
+    <ol>
+        <li>Clone the repository.</li>
+        <li>Deploy the Cloudflare Workers with the provided scripts for handling signup and login routes.</li>
+        <li>Ensure that KV namespaces are set up for storing user data.</li>
+        <li>Update the CORS headers with your frontend URL for added security.</li>
+    </ol>
 
-Setup and Deployment
-Prerequisites
-Node.js: Ensure Node.js is installed.
-Cloudflare Account: Required for deploying Cloudflare Workers and Workers KV.
+    <h3>Frontend</h3>
+    <ol>
+        <li>Install dependencies using <code>npm install</code>.</li>
+        <li>Update the API endpoint URLs in the React components to point to your deployed Cloudflare Workers.</li>
+        <li>Run the application using <code>npm start</code> and access it at <code>localhost:3000</code>.</li>
+    </ol>
 
-Installation
-Clone the Repository:
-•	git clone https://github.com/salihamajid/user_auth_managementt.git
-•	cd user-auth-management
-1.	Install Dependencies:
-cd frontend
-npm install
-2.	Set Up Cloudflare Workers:
-Configure your Cloudflare account and Workers KV.
-Deploy the backend handlers to Cloudflare Workers.
-3.	Run the Frontend:
-npm start
-Deployment
-4.	Frontend: Deploy using a static site hosting service like Vercel or Netlify.
+    <h2>Code Overview</h2>
+    <h3>Signup Function</h3>
+    <pre><code>export async function handlesignup(request, env) {
+    // Handle user signup logic here
+}</code></pre>
 
-5.	Backend: Deploy the serverless functions using Cloudflare Workers.
-Usage
-•	Registering a New User
-•	Navigate to the signup page (/signup).
-•	Enter your name, email, and password.
-•	Submit the form to create a new account.
-Logging In
-•	Navigate to the login page (/login).
-•	Enter your email and password.
-•	Submit the form to log in. If successful, you'll be redirected to the welcome page.
-Session Management
-The app automatically checks for an active session on page load. If a valid session token is found, the user is redirected to the welcome page.
-Future Improvements
-Password Reset Functionality: Implement password reset via email.
-Two-Factor Authentication (2FA): Add an extra layer of security with 2FA.
-Enhanced UI: Further improve the design and accessibility.
-Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any changes or improvements.
+    <h3>Login Function</h3>
+    <pre><code>export async function handleslogin(request, env) {
+    // Handle user login logic here
+}</code></pre>
 
-License
-This project is licensed under the MIT License. See the LICENSE file for more details.
+    <h2>Contributing</h2>
+    <p>Feel free to open issues or submit pull requests for improvements or bug fixes.</p>
 
-Contact
-For any inquiries, please contact salihamajid777@gmail.com
+    <h2>License</h2>
+    <p>This project is licensed under the MIT License.</p>
+</body>
+</html>
